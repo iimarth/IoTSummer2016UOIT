@@ -7,7 +7,8 @@ Please download the zip-file 'template_apache-spark-demo-master.zip' and
 open the main class by navigating through the levels (project dist-data-spark --> iotprojectspark --> SparkIoT.java)
 and run the SparkIoT class. The SparkIoT class that contains the main class is also using the UserInfo.java class that
 can be found in the same package. 
-To demonstrate how the program could be visualized, please refer to the link http://localhost:8080/heatmap.html.
+To demonstrate how the program could be visualized, please refer after running the main class 
+to the link http://localhost:8080/heatmap.html. 
 The code can be found in the zip-file 'dist-data-processing-starter-project-master.zip'.
 
 Links:
