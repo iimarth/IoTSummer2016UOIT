@@ -1,7 +1,13 @@
 Video:
+The video explaining the idea and including the demonstration is uploaded to youtube. Please use the following link:
 https://www.youtube.com/watch?v=pgsPrW6pFMU&feature=youtube_gdata
+
 Steps to recreate the demo:
-Found in the dist-data-spark --> iotprojectspark --> SparkIoT.jave then press Run
+Please download the zip-file 'template_apache-spark-demo-master.zip' and 
+open the main class by navigating through the levels (project dist-data-spark --> iotprojectspark --> SparkIoT.java)
+and run the SparkIoT class. The SparkIoT class that contains the main class is also using the UserInfo.java class that
+can be found in the same package. 
+
 Links:
 Sparks and code used from lectures and examples given
 
