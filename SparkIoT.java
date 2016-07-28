@@ -1,15 +1,10 @@
 package iotprojectspark;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
@@ -23,9 +18,6 @@ import com.google.common.collect.Lists;
 import de.farberg.spark.examples.streaming.ServerSocketSource;
 import scala.Tuple2;
 import scala.Tuple4;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class SparkIoT {
 
@@ -120,19 +112,15 @@ public class SparkIoT {
 				userData.add(new SparkIoT(count, 5, 36));
 			}
 		}
-		// for(int i = 0; i<100; i++) {
-		/*
-		 * for(int i=0; i<10; i++) { try { Thread.sleep(5000); }
-		 * catch(InterruptedException ie) {}
-		 * 
-		 * for (UserInfo p : userData) { System.out.println(p); } }
-		 */
+
 
 		Iterator<SparkIoT> cycleIterator = Iterators.cycle(userData);
 
 		ServerSocketSource<String> dataSource = new ServerSocketSource<>(() -> {
 			SparkIoT next = cycleIterator.next();
 
+			next.adjustBodyTemp();
+			
 			if (next == userData.get(0)) {
 				try {
 					Thread.sleep(5000);
@@ -176,31 +164,9 @@ public class SparkIoT {
 						mappedValues.mapToPair(entry -> new Tuple2<>(entry._2(), entry._3()));
 						JavaPairDStream<Integer, Double> reduceByKey =
 						pair.reduceByKey((a,b) -> b);
+						//average would have been calculated here
 						
-
 		mappedValues.print();
-		/*JavaPairDStream<String, String> temperature = lines.mapToPair(line -> {
-           String[] temp = line.split(",");
-          
-            Tuple2 t= new Tuple2<>(Integer.parseInt(temp[1]), Double.parseDouble(temp[2]));
-			return t;
-							
-            });*/
-		
-		//JavaRDD<SparkIoT> sparkData = sc.parallelize(userData);
-		//JavaRDD<String> Data = sparkData.flatMap(sparkData -> Lists.newArrayList(sparkData.split(",")));
-		//JavaPairRDD<String, Integer> wordMap = Data.mapToPair(word -> new Tuple2<>(word, 1));
-		/*val[].class = SparkIoT.split(",");
-		new Tuple2 <Integer, Double> (val[1], val[2]);
-		*/
-		//JavaPairRDD<String, Integer> reduceByKey = wordMap.reduceByKey((a, b) -> b);
-		
-		//JavaDStream<String> words = lines.flatMap(x -> Lists.newArrayList(x.split(",")));
-
-		//JavaPairDStream<String, Integer> wordCounts = words.mapToPair(word -> new Tuple2<String, Integer>(word, 1))
-		//		.reduceByKey((i1, i2) -> i1 + i2);
-
-		//wordCounts.print();
 		ssc.start();
 
 		ssc.awaitTermination();
